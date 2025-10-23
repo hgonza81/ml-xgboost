@@ -1,0 +1,87 @@
+services:
+  # FastAPI prediction service
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+      target: development
+    ports:
+      - "8000:8000"
+    environment:
+      - ENVIRONMENT=development
+      - MLFLOW_TRACKING_URI=http://mlflow:5000
+    env_file:
+      - config/development.env
+    volumes:
+      - ./src:/app/src
+      - ./config:/app/config
+      - ./tests:/app/tests
+      - mlflow_data:/app/mlruns
+    depends_on:
+      mlflow:
+        condition: service_healthy
+    networks:
+      - ml-platform
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health/ready"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # MLflow tracking server
+  mlflow:
+    build:
+      context: .
+      dockerfile: Dockerfile.mlflow
+    ports:
+      - "5001:5000"
+    environment:
+      - MLFLOW_BACKEND_STORE_URI=sqlite:///mlflow.db
+      - MLFLOW_DEFAULT_ARTIFACT_ROOT=./mlruns
+    volumes:
+      - mlflow_data:/app/mlruns
+      - mlflow_db:/app
+    networks:
+      - ml-platform
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+  # Training service (for running training jobs)
+  training:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+      target: development
+    environment:
+      - ENVIRONMENT=development
+      - MLFLOW_TRACKING_URI=http://mlflow:5000
+    env_file:
+      - config/development.env
+    volumes:
+      - ./src:/app/src
+      - ./config:/app/config
+      - ./data:/app/data
+      - mlflow_data:/app/mlruns
+    depends_on:
+      mlflow:
+        condition: service_healthy
+    networks:
+      - ml-platform
+    profiles:
+      - training
+    command: ["python", "-m", "src.training.train"]
+
+volumes:
+  mlflow_data:
+    driver: local
+  mlflow_db:
+    driver: local
+
+networks:
+  ml-platform:
+    driver: bridge

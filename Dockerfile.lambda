@@ -1,0 +1,19 @@
+# AWS Lambda container image for FastAPI
+FROM public.ecr.aws/lambda/python:3.11
+
+# Set environment variables
+ENV ENVIRONMENT=production \
+    PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1
+
+# Copy requirements and install dependencies
+COPY requirements.txt ${LAMBDA_TASK_ROOT}/
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy application code
+COPY src/ ${LAMBDA_TASK_ROOT}/src/
+COPY config/ ${LAMBDA_TASK_ROOT}/config/
+COPY deployment/lambda_handler.py ${LAMBDA_TASK_ROOT}/
+
+# Set the CMD to your handler
+CMD ["lambda_handler.handler"]

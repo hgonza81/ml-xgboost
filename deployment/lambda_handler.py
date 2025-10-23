@@ -5,7 +5,7 @@ Optimized for Lambda container deployment.
 
 import os
 from mangum import Mangum
-from src.api.main import app
+from app.main import app
 
 # Set production environment
 os.environ.setdefault("ENVIRONMENT", "production")

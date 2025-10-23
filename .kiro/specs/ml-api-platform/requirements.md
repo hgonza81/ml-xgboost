@@ -148,3 +148,16 @@ This document specifies the requirements for an ML API Platform that provides a 
 3.	THE CI_CD_Pipeline SHALL ensure that documentation is validated during each build
 4.	THE MLflow_System SHALL record model parameters and metrics in a human-readable format
 5.	THE ML_API_Platform SHALL provide example request and response payloads for /predict endpoint
+
+### Requirement 12
+
+**User Story:** As a developer, I want a modular FastAPI architecture with clear separation of concerns, so that I can maintain and extend the codebase efficiently.
+
+#### Acceptance Criteria
+1.	THE Prediction_Service SHALL organize code into separate modules for routes, schemas, models, services, and core functionality
+2.	THE API_Routes SHALL be defined using APIRouter with individual prefixes and tags for each domain
+3.	THE Pydantic_Schemas SHALL inherit from BaseModel and be organized in separate files by domain
+4.	THE Database_Models SHALL define SQLAlchemy classes with table names and columns in separate files
+5.	THE Business_Logic SHALL be encapsulated in service layer modules with clear interfaces
+6.	THE Core_Configuration SHALL manage database setup, security, and application configuration in dedicated modules
+7.	THE Main_Application SHALL automatically register all routers and use relative imports throughout the codebase

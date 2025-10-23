@@ -168,15 +168,65 @@
     - Add scalability testing under increasing load
     - _Requirements: 1.1, 3.4_
 
-- [ ] 10. Documentation and final setup
-  - [ ] 10.1 Create comprehensive documentation
+- [ ] 10. Restructure FastAPI application with modular architecture
+  - [ ] 10.1 Create new modular directory structure
+    - Create app/ directory with main.py as entry point
+    - Set up api/routes/, schemas/, models/, services/, core/, and utils/ directories
+    - Create __init__.py files for proper Python package structure
+    - _Requirements: 12.1, 12.7_
+  
+  - [ ] 10.2 Refactor API routes into separate modules
+    - Create predictions.py router with APIRouter and proper tags
+    - Create health.py router for health check endpoints
+    - Create models.py router for model information endpoints
+    - Implement proper route prefixes and organize by domain
+    - _Requirements: 12.2_
+  
+  - [ ] 10.3 Extract Pydantic schemas into domain-specific modules
+    - Move prediction schemas to schemas/prediction.py
+    - Move health schemas to schemas/health.py
+    - Move error schemas to schemas/error.py
+    - Ensure all schemas inherit from BaseModel properly
+    - _Requirements: 12.3_
+  
+  - [ ] 10.4 Create service layer for business logic
+    - Extract prediction logic to services/prediction_service.py
+    - Extract model loading logic to services/model_service.py
+    - Extract authentication logic to services/auth_service.py
+    - Implement clear service interfaces and dependency injection
+    - _Requirements: 12.5_
+  
+  - [ ] 10.5 Organize core configuration and utilities
+    - Move configuration to core/config.py with environment management
+    - Move security setup to core/security.py
+    - Move logging utilities to utils/logging.py
+    - Move metrics collection to utils/metrics.py
+    - _Requirements: 12.6_
+  
+  - [ ] 10.6 Update main.py with automatic router registration
+    - Implement FastAPI app creation in main.py
+    - Add automatic router discovery and registration
+    - Configure middleware and exception handlers
+    - Use relative imports throughout the application
+    - _Requirements: 12.7_
+  
+  - [ ] 10.7 Update imports and test the restructured application
+    - Update all imports to use the new modular structure
+    - Test that the application runs correctly from app/main.py
+    - Verify all endpoints work with the new structure
+    - Update any configuration files to point to new entry point
+    - _Requirements: 12.1, 12.7_
+
+- [ ] 11. Documentation and final setup
+  - [ ] 11.1 Create comprehensive documentation
     - Update README with setup, usage, and configuration instructions
     - Add API documentation with example payloads
     - Create troubleshooting guide and common issues
     - Document environment configuration and deployment procedures
-    - _Requirements: 11.2, 11.3, 11.5_
+    - Document the new modular architecture structure
+    - _Requirements: 11.2, 11.3, 11.5, 12.1_
   
-  - [ ] 10.2 Validate complete system integration
+  - [ ] 11.2 Validate complete system integration
     - Test full workflow from training to prediction
     - Validate CI/CD pipeline end-to-end
     - Verify production deployment and monitoring

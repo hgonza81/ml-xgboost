@@ -69,18 +69,53 @@ The system consists of three main service components:
 
 ### 1. FastAPI Prediction Service
 
-**Purpose**: Serves classification predictions via REST API with comprehensive authentication, validation, and monitoring
+**Purpose**: Serves classification predictions via REST API with comprehensive authentication, validation, and monitoring using a modular architecture
+
+**Modular Architecture Structure**:
+```
+app/
+├── main.py                  # Entry point with FastAPI app and router registration
+├── api/
+│   └── routes/              # API route modules with APIRouter
+│       ├── predictions.py   # Prediction endpoints
+│       ├── health.py        # Health check endpoints  
+│       ├── models.py        # Model information endpoints
+│       └── __init__.py
+├── schemas/                 # Pydantic models for input/output validation
+│   ├── prediction.py        # Prediction request/response schemas
+│   ├── health.py           # Health check schemas
+│   ├── error.py            # Error response schemas
+│   └── __init__.py
+├── models/                  # Database/ORM models (future SQLAlchemy integration)
+│   ├── user.py             # User model for future authentication
+│   ├── prediction_log.py   # Prediction logging model
+│   └── __init__.py
+├── services/                # Business logic layer
+│   ├── prediction_service.py # Prediction business logic
+│   ├── model_service.py     # Model loading and management
+│   ├── auth_service.py      # Authentication logic
+│   └── __init__.py
+├── core/                    # Core configurations and setup
+│   ├── config.py           # Application configuration
+│   ├── database.py         # Database setup (future)
+│   ├── security.py         # Security and authentication setup
+│   └── __init__.py
+└── utils/                   # Helper functions and utilities
+    ├── logging.py          # Logging utilities
+    ├── metrics.py          # Metrics collection
+    └── __init__.py
+```
 
 **Key Components**:
-- `PredictionAPI`: Main FastAPI application with OpenAPI documentation
-- `ModelLoader`: Loads XGBoost models from MLflow registry with caching
-- `InputValidator`: Validates incoming JSON tabular data structure and types
-- `AuthenticationMiddleware`: API key-based authentication system
-- `LoggingMiddleware`: Comprehensive request/response logging with timestamps
-- `ErrorHandler`: Centralized error handling with predictable responses
-- `HealthCheckEndpoints`: Readiness and liveness probes for container orchestration
+- `PredictionRouter`: APIRouter for prediction endpoints with proper tagging
+- `HealthRouter`: APIRouter for health check endpoints
+- `ModelRouter`: APIRouter for model information endpoints
+- `PredictionService`: Business logic for model loading and inference
+- `AuthService`: Authentication and authorization logic
+- `ConfigManager`: Centralized configuration management
+- `LoggingUtils`: Structured logging and monitoring utilities
 
-**Design Rationale**: The service uses FastAPI for automatic OpenAPI documentation generation (Requirement 11.1) and provides robust error handling patterns (Requirement 10.1). API key authentication was chosen over more complex schemes for simplicity while maintaining security (Requirement 9.1).
+**Design Rationale**: The modular architecture separates concerns clearly (Requirement 12.1), uses APIRouter for organized routing (Requirement 12.2), and enables better maintainability and testing. Each module has a single responsibility, making the codebase more scalable and easier to understand.
 
 **Interfaces**:
 ```python

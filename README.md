@@ -138,3 +138,121 @@ The platform follows a microservices architecture:
 - **Deployment**: Container-based deployment to AWS Lambda
 
 All services are containerized and orchestrated with Docker Compose for development, with production deployment to AWS Lambda using container images.
+
+## Technology Stack
+
+### 🐍 Base Language
+- **Python 3.11+** – Main programming language of the project
+
+---
+
+### 🚀 Web Framework & API
+- **FastAPI (>=0.104.0)** – Modern, high-performance web framework for APIs  
+- **Uvicorn (>=0.24.0)** – ASGI server for running FastAPI  
+- **Pydantic (>=2.5.0)** – Data validation and serialization  
+- **python-multipart (>=0.0.6)** – Multipart form data handling  
+
+---
+
+### 🤖 Machine Learning & MLOps
+- **MLflow (>=2.8.0)** – MLOps platform for experiment tracking and model registry  
+- **XGBoost (>=2.0.0)** – Core machine learning algorithm  
+- **scikit-learn (>=1.3.0)** – Complementary ML library  
+- **Pandas (>=2.1.0)** – Data manipulation  
+- **NumPy (>=1.24.0)** – Numerical computing  
+- **SciPy (>=1.11.0)** – Scientific algorithms  
+- **Joblib (>=1.3.0)** – Model serialization  
+
+---
+
+### ☁️ Cloud Services (AWS)
+- **Boto3 (>=1.34.0)** – AWS SDK for Python  
+- **Botocore (>=1.34.0)** – Core AWS SDK components  
+
+---
+
+### 🌐 HTTP & Networking
+- **HTTPx (>=0.25.0)** – Asynchronous HTTP client  
+- **Requests (>=2.31.0)** – Traditional synchronous HTTP client  
+
+---
+
+### 📊 Logging & Monitoring
+- **Structlog (>=23.2.0)** – Structured logging  
+- **python-json-logger (>=2.0.7)** – JSON logging formatter  
+
+---
+
+### ⚙️ Configuration
+- **pydantic-settings (>=2.1.0)** – Configuration management  
+- **python-dotenv (>=1.0.0)** – Environment variable management  
+
+---
+
+### 🔍 Hyperparameter Optimization
+- **Optuna (>=3.4.0)** – Hyperparameter optimization framework  
+- **optuna-integration[mlflow] (>=3.4.0)** – MLflow integration for Optuna  
+
+---
+
+### 🐳 Containerization & Orchestration
+- **Docker** – Containerization for services  
+- **Docker Compose** – Local orchestration  
+- **AWS Lambda** – Serverless deployment (via `Dockerfile.lambda`)  
+
+---
+
+### 🧪 Testing & Code Quality (Dev Dependencies)
+- **pytest (>=7.4.0)** – Testing framework  
+- **pytest-asyncio (>=0.21.0)** – Async testing support  
+- **pytest-cov (>=4.1.0)** – Code coverage reporting  
+- **black (>=23.11.0)** – Code formatter  
+- **isort (>=5.12.0)** – Import sorter  
+- **flake8 (>=6.1.0)** – Linter  
+- **mypy (>=1.7.0)** – Static type checker  
+- **pre-commit (>=3.6.0)** – Git hooks automation  
+
+---
+
+### 📈 Production Monitoring (Optional)
+- **prometheus-client (>=0.19.0)** – Prometheus metrics exporter  
+- **sentry-sdk[fastapi] (>=1.38.0)** – Error tracking and tracing  
+
+---
+
+### 🗄️ Databases (Production)
+- **psycopg2-binary (>=2.9.9)** – PostgreSQL adapter  
+- **pymysql (>=1.1.0)** – MySQL adapter  
+- **SQLite** – Default lightweight database for MLflow  
+
+---
+
+### 🔧 Development Tools
+- **jupyter (>=1.0.0)** – Interactive notebooks for analysis  
+- **ipython (>=8.17.0)** – Enhanced interactive Python shell  
+- **Make** – Task automation (Makefile)  
+
+---
+
+### 🏗️ System Architecture
+- **Microservices** – Separate API, MLflow, and Training services  
+- **RESTful API** – Standard REST endpoints  
+- **API Key Authentication** – Security mechanism  
+- **CORS** – Cross-Origin Resource Sharing policy  
+- **Health Checks** – Service health monitoring  
+- **Multi-stage Docker builds** – Optimized container images  
+
+---
+
+### 📁 Configuration Structure
+- **Environment-based config** – Development vs. Production  
+- **Pydantic Settings** – Validated configuration system  
+- **Docker environment files** – Environment-specific variables  
+
+---
+
+### 🔄 Workflow
+- **MLflow Model Registry** – Centralized model versioning  
+- **Hyperparameter Optimization** – Tuning with Optuna  
+- **Model Promotion Pipeline** – Controlled model rollout  
+- **Experiment Tracking** – Complete experiment traceability  
